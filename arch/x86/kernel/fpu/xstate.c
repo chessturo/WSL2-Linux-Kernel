@@ -195,6 +195,8 @@ void fpu__init_cpu_xstate(void)
 	 * MSR_IA32_XSS sets supervisor states managed by XSAVES.
 	 */
 	if (boot_cpu_has(X86_FEATURE_XSAVES)) {
+		pr_info("Writing %llx to IA32_XSS\n", xfeatures_mask_supervisor() |
+						      xfeatures_mask_independent());
 		wrmsrl(MSR_IA32_XSS, xfeatures_mask_supervisor() |
 				     xfeatures_mask_independent());
 	}

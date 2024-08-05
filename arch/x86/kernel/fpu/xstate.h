@@ -209,6 +209,7 @@ static inline void os_xrstor(struct fpstate *fpstate, u64 mask)
 	u32 hmask = mask >> 32;
 
 	xfd_validate_state(fpstate, mask, true);
+	pr_info("Attempting to retore fpregs with mask %llx\n", mask);
 	XSTATE_XRESTORE(&fpstate->regs.xsave, lmask, hmask);
 }
 
