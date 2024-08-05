@@ -6,6 +6,8 @@
 #include <asm/fpu/xstate.h>
 #include <asm/fpu/xcr.h>
 
+extern bool init_has_started;
+
 #ifdef CONFIG_X86_64
 DECLARE_PER_CPU(u64, xfd_state);
 #endif
@@ -209,7 +211,7 @@ static inline void os_xrstor(struct fpstate *fpstate, u64 mask)
 	u32 hmask = mask >> 32;
 
 	xfd_validate_state(fpstate, mask, true);
-	pr_info("Attempting to retore fpregs with mask %llx\n", mask);
+	if (!init_has_started) pr_info("Attempting to restore fpregs with mask %llx\n", mask);
 	XSTATE_XRESTORE(&fpstate->regs.xsave, lmask, hmask);
 }
 

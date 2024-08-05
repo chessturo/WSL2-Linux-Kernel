@@ -15,9 +15,12 @@
 #define CREATE_TRACE_POINTS
 #include <trace/events/syscalls.h>
 
+bool init_has_started = false;
+
 /* See comment for enter_from_user_mode() in entry-common.h */
 static __always_inline void __enter_from_user_mode(struct pt_regs *regs)
 {
+	init_has_started = true;
 	arch_enter_from_user_mode(regs);
 	lockdep_hardirqs_off(CALLER_ADDR0);
 
